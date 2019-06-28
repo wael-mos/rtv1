@@ -6,133 +6,17 @@
 /*   By: wael-mos <wael-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 16:05:37 by wael-mos          #+#    #+#             */
-/*   Updated: 2019/06/15 15:30:30 by wael-mos         ###   ########.fr       */
+/*   Updated: 2019/06/28 10:46:48 by wael-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "../rtv1.h"
 
-float	dot_product(t_vec3 a, t_vec3 b)
+#include "rtv1.h"
+
+t_vec	vec(float x, float y, float z)
 {
-	return (a.x * b.x + a.y * b.y + a.z * b.z);
-}
-
-float	length(t_vec3 a)
-{
-	return (sqrt(dot_product(a, a)));
-}
-
-t_vec3	scale(float k, t_vec3 a)
-{
-	t_vec3	res;
-
-	res.x = a.x * k;
-	res.y = a.y * k;
-	res.z = a.z * k;
-	return (res);
-}
-
-t_vec3	normalize(t_vec3 p)
-{
-	t_vec3 res;
-
-	if (dot_product(p, p) == 0)
-		exit(-1);
-	
-    float w = 1.0f / sqrtf(dot_product(p, p));
-	res = scale(w, p);
-	return (res);
-}
-
-t_vec2			vec2(float x, float y)
-{
-	t_vec2	res;
-
-	res.x = x;
-	res.y = y;
-	return (res);
-}
-
-t_ivec2	ivec2(int x, int y)
-{
-        t_ivec2  res;
-
-        res.start = x;
-        res.end = y;
-        return (res);
-}
-
-t_vec3  mul_vec(t_vec3 a, t_vec3 b)
-{
-	t_vec3  res;
-
-	res.x = a.x * b.x;
-	res.y = a.y * b.y;
-	res.z = a.z * b.z;
-	return (res);
-}
-
-t_vec2  mul_vec2(t_vec2 a, t_vec2 b)
-{
-	t_vec2  res;
-
-	res.x = a.x * b.x;
-	res.y = a.y * b.y;
-	return (res);
-}
-
-t_vec3  sub_vec(t_vec3 a, t_vec3 b)
-{
-        t_vec3  res;
-
-        res.x = a.x - b.x;
-        res.y = a.y - b.y;
-        res.z = a.z - b.z;
-        return (res);
-}
-
-t_vec2  sub_vec2(t_vec2 a, t_vec2 b)
-{
-        t_vec2  res;
-
-        res.x = a.x - b.x;
-        res.y = a.y - b.y;
-        return (res);
-}
-
-t_vec3  add_vec(t_vec3 a, t_vec3 b)
-{
-        t_vec3  res;
-
-        res.x = a.x + b.x;
-        res.y = a.y + b.y;
-        res.z = a.z + b.z;
-        return (res);
-}
-
-t_vec3  div_vec(t_vec3 a, t_vec3 b)
-{
-        t_vec3  res;
-
-        res.x = a.x / b.x;
-        res.y = a.y / b.y;
-        res.z = a.z / b.z;
-        return (res);
-}
-
-t_vec2  div_vec2(t_vec2 a, t_vec2 b)
-{
-        t_vec2  res;
-
-        res.x = a.x / b.x;
-        res.y = a.y / b.y;
-        return (res);
-}
-
-t_vec3	vec3(float x, float y, float z)
-{
-        t_vec3  res;
+        t_vec  res;
 
         res.x = x;
         res.y = y;
@@ -140,221 +24,466 @@ t_vec3	vec3(float x, float y, float z)
         return (res);
 }
 
-t_vec3	cmpxmul(t_vec3 a, t_vec3 b)
+/* Subtract two vectors and return the resulting vector */
+t_vec sub_vec(t_vec *v1, t_vec *v2)
 {
-	return (vec3(a.x * b.x - a.y * b.y, a.y * b.x + a.x * b.y, 0.0));
-}
-
-// void		put_pixel(int x, int y, int color, t_data *data)
-// {
-// 	int		i;
-
-// 	i = (x * 4) + (y * data->sl);
-// 	data->img_addr[i] = color;
-// 	data->img_addr[++i] = color >> 8;
-// 	data->img_addr[++i] = color >> 16;
-// }
-
-void	put_pixel(int x, int y, int color, t_data *data)
-{
-	int             i;
-
-	i = x + (y * data->sl);
-	data->img_addr[i] = color;
-}
-
-// int		create_circle(t_data *data, t_vec2 uv) // first try not that bad but i dont understand why we do that and how to use the result
-// {
-// 	float	v;
-// 	float	d;
-// 	// t_vec3	p; // intersection point
-// 	// t_vec3	plane;
-// 	// t_vec3	sqr; // v squared
-
-// 	float	disc;
-
-// 	// plane = div_vec(vec3((float)x, (float)y, (float)0.0),\
-// 	// 	vec3((float)WIN_X, (float)WIN_Y, (float)0.0));
-// 	// plane = sub_vec(plane, vec3(0.5, 0.5, 0.0));
-// 	// plane = mul_vec(plane, vec3(4.0, 4.0, 0.0));
-
-// 	// plane = vec3((float)x, (float)y, (float)0.0);
-// 	v = dot_product(sub_vec(data->env.sph.o, data->env.cam), sub_vec(vec3(uv.x, uv.y, 0.0), data->env.cam));
-
-// 	disc = (data->env.sph.r * data->env.sph.r) - (dot_product(sub_vec(data->env.sph.o, data->env.cam), sub_vec(data->env.sph.o, data->env.cam)) - (v * v));
-// 	// printf("%f\n", disc);
+	t_vec res;
 	
-// 	if (disc < 0)
-// 		return (0);
-// 	else
-// 	{
-// 		d = sqrt(disc);
-// 		data->p = add_vec(data->env.cam, mul_vec(vec3((v - d), (v - d), (v - d)), sub_vec(vec3(uv.x, uv.y, 0.0), data->env.cam)));
-// 	}
-// 	return (1);
-// }
-
-// float map(t_vec3 p)
-// {
-//     return length(p) - 1.0;
-// }
-
-// float trace(t_vec3 o, t_vec3 r) // from shadertoy the one who seems the most logic and the good way i think
-// {
-//     float t = 0.0;
-//     const int maxSteps = 32;
-//     for (int i = 0; i < maxSteps; i++){ 
-//         t_vec3 p = add_vec(o, mul_vec(r, vec3(t, t, t)));
-//         float d = map(p);
-// 		if (d<0.001)
-// 			break;
-//         t += d * 0.5;
-//     }
-//     return t;
-// }
-
-float	create_sphere(t_data *data, t_vec3 rd) // what i understood from formula found
-{
-	t_vec3 oc = sub_vec(data->env.cam, data->env.sph.o);
-	float a = dot_product(rd, rd);
-	// printf("%f\n", a);
-	float b = 2.0 * dot_product(rd, oc);
-	float c = dot_product(oc, oc) - (data->env.sph.r * data->env.sph.r);
-	float d = (b * b) - (4 * a * c);
-	if (d < 0.0) // no intersection
-		return (-1.0);
-	else // 1 or 2
-		return (-b - sqrt(d)) / (2.0*a);
-	// double	sqrtdiscr;
-	// double	t0;
-	// double	t1;
-	// sqrtdiscr = sqrtf(b * b - 4 * a * c);
-	// t0 = (-b + sqrtdiscr) / (2 * a);
-	// t1 = (-b - sqrtdiscr) / (2 * a);
-	// if (t0 > t1)
-	// 	t0 = t1;
-	// if (t0 > 0.001f && (*t == -1 || t0 < *t))
-	// {
-	// 	*t = t0;
-	// 	return (1);
-	// }
-	return (0);
+	res.x = v1->x - v2->x;
+	res.y = v1->y - v2->y;
+	res.z = v1->z - v2->z;
+	return (res);
 }
 
-int				get_color(t_vec3 color)
+/* Multiply two vectors and return the resulting scalar (dot product) */
+float dot_product(t_vec *v1, t_vec *v2)
 {
-	return (((int)(color.x * 255)) << 16) | (((int)(color.y * 255)) << 8) |\
-	((int)(color.z * 255));
+	return (v1->x * v2->x + v1->y * v2->y + v1->z * v2->z);
 }
 
-static int	toomuch_lineagain(int c, t_thread **thread)
+/* Calculate Vector x Scalar and return resulting Vector*/ 
+t_vec scale(float c, t_vec *v)
 {
-	(*thread)->data->env.cam = vec3(500.0, 200.0, 0.0);
-	(*thread)->data->env.sph.o = vec3(200.0, 150.0, 10.0);
-	(*thread)->data->env.sph.r = 70.0;
-	// t_vec2	uv = div_vec2(vec2((float)(*thread)->posx.start, (float)(*thread)->posy.start), vec2((float)WIN_X, (float)WIN_Y));
-	// uv = mul_vec2(uv, vec2(2.0, 2.0));
-	// uv = sub_vec2(uv, vec2(1.0, 1.0));
-	// uv.x *= WIN_X / WIN_Y;
-	// t_vec2 uv = div_vec2(sub_vec2(vec2((float)(*thread)->posx.start, (float)(*thread)->posy.start), vec2((float)WIN_X / 2, (float)WIN_Y / 2)), vec2((float)WIN_Y, (float)WIN_Y)); // the good way..
-	// printf("X   %f\n", uv.x);fflush(stdout);
-	t_vec3 rd = normalize(vec3((float)(*thread)->posx.start, (float)(*thread)->posy.start, 1.0)); //     ||    idk why its working
-	// t_vec3 rd = normalize(vec3(uv.x, uv.y, 1.0)); // the good way..
+    t_vec res;
+	
+	res.x = v->x * c;
+	res.y = v->y * c;
+	res.z = v->z * c;
+	return (res);
+}
 
-	double t = create_sphere((*thread)->data, rd);
-	if (t -= -1)
+/* Add two vectors and return the resulting vector */
+t_vec add_vec(t_vec *v1, t_vec *v2)
+{
+    t_vec res;
+	
+	res.x = v1->x + v2->x;
+	res.y = v1->y + v2->y;
+	res.z = v1->z + v2->z;
+	return (res);
+}
+
+/* Check if the ray and sphere intersect */
+int intersectRaySphere(t_ray *r, t_sph *s, float *t)
+{
+	
+	int ret;
+	ret = 0;
+
+	/* A = d.d, the vector dot product of the direction */
+	float A; 
+	A = dot_product(&r->dir, &r->dir); 
+	
+	/* We need a vector representing the distance between the start of 
+	 * the ray and the position of the circle.
+	 * This is the term (p0 - c) 
+	 */
+	t_vec dist;
+	dist = sub_vec(&r->start, &s->pos);
+	
+	/* 2d.(p0 - c) */  
+	float B;
+	B = 2 * dot_product(&r->dir, &dist);
+	
+	/* (p0 - c).(p0 - c) - r^2 */
+	float C;
+	C = dot_product(&dist, &dist) - (s->radius * s->radius);
+	
+	/* Solving the discriminant */
+	float discr;
+	discr = B * B - 4 * A * C;
+	
+	/* If the discriminant is negative, there are no real roots.
+	 * Return false in that case as the ray misses the sphere.
+	 * Return true in all other cases (can be one or two intersections)
+	 * t represents the distance between the start of the ray and
+	 * the point on the sphere where it intersects.
+	 */
+	if (discr < 0)
+		ret = 0;
+	else
 	{
-		t_vec3 new = add_vec(scale(t, rd), (*thread)->data->env.cam);
-		put_pixel(new.x, new.y, 0xDDDDDD, (*thread)->data);
-	}
-	else // just trying to understand where is my ray
-		put_pixel((*thread)->posx.start, (*thread)->posy.start, 0xFFDDDD, (*thread)->data);
-	// printf("%f\n", t);
-	// printf("X2   %f\n", rd.x);fflush(stdout);
-	// float t = dot_product(sub_vec((*thread)->data->env.sph.o, (*thread)->data->env.cam), rd);
-	// t_vec3 p = add_vec((*thread)->data->env.cam, mul_vec(rd, vec3(t, t, t)));
-	// float y = length(sub_vec((*thread)->data->env.sph.o, p));
-	// printf("%f     ", y);
-	// printf("%f     ", );
-		// float x = sqrt(((*thread)->data->env.sph.r * (*thread)->data->env.sph.r) - (y * y));
+		float sqrtdiscr;
+		float t0;
+		float t1;
+		
+		sqrtdiscr = sqrtf(discr);
+		t0 = (-B + sqrtdiscr)/(2);
+		t1 = (-B - sqrtdiscr)/(2);
+		
+		/* We want the closest one */
+		if (t0 > t1)
+			t0 = t1;
 
-
-	// z = NULL;
-	// printf("%d\n", c);
-	c = 0; //                      The easy way
-	// t_vec2	uv = div_vec2(vec2((float)(*thread)->posx.start, (float)(*thread)->posy.start), vec2((float)WIN_X, (float)WIN_Y));
-	// uv = mul_vec2(uv, vec2(2.0, 2.0));
-	// uv = sub_vec2(uv, vec2(1.0, 1.0));
-	// uv.x *= WIN_X / WIN_Y;
-
-	// float r = sqrt(dot_product(uv, uv));
-	// if (r < 0.7)
-	// c = create_circle((*thread)->data,/* (*thread)->posx.start, (*thread)->posy.start, */uv);
-	// if (c == 1)
-	// t_vec3 r = vec3(uv.x, uv.y, 1.0);
-
-	// float t = trace((*thread)->data->env.sph.o, r);
-	// float fog = 1.0 / (1.0 + t * t * 0.1);
-
-		// if ((*thread)->posx.start > 700 || (*thread)->posx.start < 0)
-		// 	printf("1 %d\n", (*thread)->posx.start);
-		// (*thread)->data->p = div_vec((*thread)->data->p, vec3(4.0, 4.0, 0.0));
-		// (*thread)->data->p = add_vec((*thread)->data->p, vec3(0.5, 0.5, 0.0));
-		// (*thread)->data->p = mul_vec((*thread)->data->p, vec3((float)WIN_X, (float)WIN_Y, (float)0.0));
-		// printf("2 %f\n", (*thread)->data->p.y);
-		// if ((*thread)->data->p.y <= 700 && (*thread)->data->p.y >= 0 && (*thread)->data->p.x <= 700 && (*thread)->data->p.x >= 0)
-	return (c);
-}
-
-void		*loop_screen(void *tmp)
-{
-	int				c;
-	int				ys;
-	t_thread		*thread;
-
-	thread = (t_thread *)tmp;
-	ys = thread->posy.start;
-	while (thread->posx.start < thread->posx.end)
-	{
-		thread->posy.start = ys;
-		while (thread->posy.start < thread->posy.end)
+		/* Verify t1 larger than 0 and less than the original t */
+		if ((t0 > 0.001f) && (t0 < *t))
 		{
-			c = toomuch_lineagain(c, &thread);
-			++thread->posy.start;
+			*t = t0;
+			ret = 1;
 		}
-		++thread->posx.start;
+		else
+			ret = 0;
 	}
-	return (NULL);
+return (ret);
 }
 
-static void	init_thread(t_thread *thread, t_data *data, t_ivec2 x, t_ivec2 y)
+/* I'm using it for the shadow */
+
+int intersectRayCylinder(t_ray *r, t_sph *s, float *t)
 {
-	thread->data = data;
-	thread->posx.start = x.start;
-	thread->posx.end = x.end;
-	thread->posy.start = y.start;
-	thread->posy.end = y.end;
-	pthread_create(&thread->thread, NULL, loop_screen, thread);
+	
+	float	k;
+	int		ret;
+	t_vec	rot;
+
+	ret = 0;
+	rot = vec(0, 1, 0);
+	k = s->radius;
+
+	/* A = d.d, the vector dot product of the direction */
+	float A;
+	A = dot_product(&r->dir, &r->dir) - pow(dot_product(&r->dir, &rot), 2) *(1 + k * k);
+	t_vec dist;
+	dist = sub_vec(&r->start, &s->pos);
+	
+	/* 2d.(p0 - c) */  
+	float B;
+	B = 2 * (dot_product(&r->dir, &dist) - (1 + k * k) * dot_product(&r->dir, &rot));
+	
+	/* (p0 - c).(p0 - c) - r^2 */
+	float C;
+	C = dot_product(&dist, &dist) - (1 + k * k) * pow(dot_product(&dist, &rot), 2);
+	
+	/* Solving the discriminant */
+	float discr;
+	discr = B * B - 4 * A * C;
+	
+	/* If the discriminant is negative, there are no real roots.
+	 * Return false in that case as the ray misses the sphere.
+	 * Return true in all other cases (can be one or two intersections)
+	 * t represents the distance between the start of the ray and
+	 * the point on the sphere where it intersects.
+	 */
+	if (discr < 0)
+		ret = 0;
+	else
+	{
+		float sqrtdiscr;
+		float t0;
+		float t1;
+
+		sqrtdiscr = sqrtf(discr);
+		t0 = (-B + sqrtdiscr)/(2);
+		t1 = (-B - sqrtdiscr)/(2);
+		
+		/* We want the closest one */
+		if (t0 > t1)
+			t0 = t1;
+
+		/* Verify t1 larger than 0 and less than the original t */
+		if ((t0 > 0.001f) && (t0 < *t))
+		{
+			*t = t0;
+			ret = 1;
+		}
+		else
+			ret = 0;
+	}
+return (ret);
 }
 
-int			thread_init(t_data *data)
-{
-	t_thread	thread[4];
+// void	put_pixel(int x, int y, int color, t_mlx *data)
+// {
+// 	int             i;
 
-	init_thread(&thread[0], data, ivec2(0, WIN_X / 2), ivec2(0, WIN_Y / 2));
-	init_thread(&thread[1], data, ivec2(WIN_X / 2, WIN_X),\
-		ivec2(0, WIN_Y / 2));
-	init_thread(&thread[2], data, ivec2(0, WIN_X / 2),\
-		ivec2(WIN_Y / 2, WIN_Y));
-	init_thread(&thread[3], data, ivec2(WIN_X / 2, WIN_X),\
-		ivec2(WIN_Y / 2, WIN_Y));
-	pthread_join(thread[0].thread, NULL);
-	pthread_join(thread[1].thread, NULL);
-	pthread_join(thread[2].thread, NULL);
-	pthread_join(thread[3].thread, NULL);
-	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+// 	i = x + (y * data->size_line);
+// 	data->data[i] = color;
+// }
+
+int		toomuch_lineagain(t_mlx *data)
+{
+	t_ray r;
+	unsigned int number_mat;
+
+	number_mat = 4;
+
+	t_mat materials[number_mat];
+	materials[0].diffuse.red = 1;
+	materials[0].diffuse.green = 1;
+	materials[0].diffuse.blue = 0;
+	materials[0].reflection = 0.2;
+	
+	materials[1].diffuse.red = 0;
+	materials[1].diffuse.green = 1;
+	materials[1].diffuse.blue = 1;
+	materials[1].reflection = 0.5;
+	
+	materials[2].diffuse.red = 1;
+	materials[2].diffuse.green = 1;
+	materials[2].diffuse.blue = 1;
+	materials[2].reflection = 0.9;
+
+	materials[3].diffuse.red = 1;
+	materials[3].diffuse.green = 0;
+	materials[3].diffuse.blue = 1;
+	materials[3].reflection = 0.2;
+	
+	t_sph spheres[number_mat];
+	spheres[0].pos.x = 150;
+	spheres[0].pos.y = 200;
+	spheres[0].pos.z = 0;
+	spheres[0].radius = 100;
+	spheres[0].material = 0;
+	
+	spheres[1].pos.x = 400;
+	spheres[1].pos.y = 400;
+	spheres[1].pos.z = 0;
+	spheres[1].radius = 100;
+	spheres[1].material = 1;
+	
+	spheres[2].pos.x = 500;
+	spheres[2].pos.y = 140;
+	spheres[2].pos.z = 0;
+	spheres[2].radius = 100;
+	spheres[2].material = 2;
+	
+	spheres[3].pos.x = 0;
+	spheres[3].pos.y = 0;
+	spheres[3].pos.z = 0;
+	spheres[3].radius = 100;
+	spheres[3].material = 3;
+	
+	t_light lights[number_mat];
+	lights[0].pos.x = 0;
+	lights[0].pos.y = 0;
+	lights[0].pos.z = -100;
+	lights[0].intensity.red = 1;
+	lights[0].intensity.green = 1;
+	lights[0].intensity.blue = 1;
+	
+	lights[1].pos.x = 400;
+	lights[1].pos.y = -700;
+	lights[1].pos.z = -700;
+	lights[1].intensity.red = 0.6;
+	lights[1].intensity.green = 0.7;
+	lights[1].intensity.blue = 1;
+
+	lights[2].pos.x = 1000;
+	lights[2].pos.y = 0;
+	lights[2].pos.z = -100;
+	lights[2].intensity.red = 0.3;
+	lights[2].intensity.green = 0.5;
+	lights[2].intensity.blue = 1;
+
+	lights[3].pos.x = 0;
+	lights[3].pos.y = 0;
+	lights[3].pos.z = -100;
+	lights[3].intensity.red = 0.3;
+	lights[3].intensity.green = 0.5;
+	lights[3].intensity.blue = 1;
+	
+	/* Will contain the raw image */
+
+	
+	int x;
+	int y;
+	// y = (*thread)->posy.x;
+	y = 0;
+	while (y < WIN_Y)
+	{
+		// x = (*thread)->posx.x;
+		x = 0;
+		while (x < WIN_X)
+		{
+			
+			float red;
+			float green;
+			float blue;
+			
+			red = 0;
+			green = 0;
+			blue = 0;
+			
+			int level;
+			float coef;
+			
+			level = 0;
+			coef = 1.0;
+			
+			r.start.x = x;
+			r.start.y = y;
+			r.start.z = -2000;
+			
+			r.dir.x = 0;
+			r.dir.y = 0;
+			r.dir.z = 1;
+			
+			while ((coef > 0.0f) && (level < 15))
+			{
+				/* Find closest intersection */
+				float t;
+				int currentSphere;
+				
+				t = 20000.0f;
+				currentSphere = -1;
+				
+				unsigned int i;
+				i = 0;
+
+				while (i < number_mat)
+				{
+					if (intersectRaySphere(&r, &spheres[i], &t))
+						currentSphere = i;
+					i++;
+				}
+				if (currentSphere == -1)
+					break;
+				
+				t_vec scaled;
+				t_vec newStart;
+				
+				scaled = scale(t, &r.dir);
+				newStart = add_vec(&r.start, &scaled);
+				
+				/* Find the normal for this new vector at the point of intersection */
+				t_vec n;
+				float temp;
+
+				n = sub_vec(&newStart, &spheres[currentSphere].pos);
+				temp = dot_product(&n, &n);
+				if (temp == 0)
+					break;
+				
+				temp = 1.0f / sqrtf(temp);
+				n = scale(temp, &n);
+
+				/* Find the material to determine the colour */
+				t_mat currentMat;
+				currentMat = materials[spheres[currentSphere].material];
+				
+				/* Find the value of the light at this point */
+				unsigned int j;
+				j = 0;
+
+				while (j++ < 3)
+				{
+					t_light currentLight;
+					t_vec dist;
+					
+					currentLight = lights[j];
+					dist = sub_vec(&currentLight.pos, &newStart);
+					if (dot_product(&n, &dist) <= 0.0f)
+						continue;
+					float t;
+					t = sqrtf(dot_product(&dist,&dist));
+					if (t <= 0.0f)
+						continue;
+					
+					t_ray lightRay;
+					lightRay.start = newStart;
+					lightRay.dir = scale((1/t), &dist);
+					
+					/* Calculate shadows */
+					int inShadow;
+					unsigned int k;
+					
+					inShadow = 0;
+					k = 0;
+					while (++k < number_mat)
+					{
+						if (intersectRayCylinder(&lightRay, &spheres[k], &t))
+						{
+							inShadow = 1;
+							break;
+						}
+					}
+					if (!inShadow)
+					{
+						/* Lambert diffusion */
+						float lambert;
+						lambert = dot_product(&lightRay.dir, &n) * coef; 
+						red += lambert * currentLight.intensity.red * currentMat.diffuse.red;
+						green += lambert * currentLight.intensity.green * currentMat.diffuse.green;
+						blue += lambert * currentLight.intensity.blue * currentMat.diffuse.blue;
+					}
+				}
+				/* Iterate over the reflection */
+				coef *= currentMat.reflection;
+				
+				/* The reflected ray start and direction */
+				float reflect;
+				t_vec tmp;
+				
+				r.start = newStart;
+				reflect = 2.0f * dot_product(&r.dir, &n);
+				tmp = scale(reflect, &n);
+				r.dir = sub_vec(&r.dir, &tmp);
+
+				level++;
+
+			}
+			int color;
+            color = pow(256,2) * (unsigned char)min(red * 255.0f, 255.0f) + 256 * (unsigned char)min(green * 255.0f, 255.0f) + (unsigned char)min(blue * 255.0f, 255.0f);
+			data->data[(x + y * WIN_X) + 0] = color;
+			// put_pixel(x, y, color, (*thread)->data);
+			x++;
+		}
+		y++;
+	}
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->image_ptr, 0, 0);
 	return (0);
 }
+
+/* Not working */
+
+// void		*loop_screen(void *tmp)
+// {
+// 	int				ys;
+// 	t_thread		*thread;
+
+// 	thread = (t_thread *)tmp;
+// 	ys = thread->posy.x;
+// 	while (thread->posx.x < thread->posx.y)
+// 	{
+// 		thread->posy.x = ys;
+// 		while (thread->posy.x < thread->posy.y)
+// 		{
+// 			toomuch_lineagain(&thread);
+// 			++thread->posy.x;
+// 		}
+// 		++thread->posx.x;
+// 	}
+// 	return (NULL);
+// }
+
+// static void	init_thread(t_thread *thread, t_mlx *data, t_vec x, t_vec y)
+// {
+// 	thread->data = data;
+// 	thread->posx.x = x.x;
+// 	thread->posx.y = x.y;
+// 	thread->posy.x = y.x;
+// 	thread->posy.y = y.y;
+// 	pthread_create(&thread->thread, NULL, loop_screen, thread);
+// }
+
+// int			thread_init(t_mlx *data)
+// {
+// 	t_thread	thread[4];
+
+// 	init_thread(&thread[0], data, vec(0, WIN_X / 2, 0), vec(0, WIN_Y / 2, 0));
+// 	init_thread(&thread[1], data, vec(WIN_X / 2, WIN_X, 0),\
+// 		vec(0, WIN_Y / 2, 0));
+// 	init_thread(&thread[2], data, vec(0, WIN_X / 2, 0),\
+// 		vec(WIN_Y / 2, WIN_Y, 0));
+// 	init_thread(&thread[3], data, vec(WIN_X / 2, WIN_X, 0),\
+// 		vec(WIN_Y / 2, WIN_Y, 0));
+// 	pthread_join(thread[0].thread, NULL);
+// 	pthread_join(thread[1].thread, NULL);
+// 	pthread_join(thread[2].thread, NULL);
+// 	pthread_join(thread[3].thread, NULL);
+// 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->image_ptr, 0, 0);
+// 	return (0);
+// }
 
 int			deal_key(int key, char *s)
 {
@@ -372,20 +501,17 @@ int			deal_close(void)
 
 int	main(void)
 {
-	t_data	data;
+	t_mlx	data;
 	
-	data.mlx = mlx_init();
-	data.win = mlx_new_window(data.mlx, WIN_X, WIN_Y, "h");
-	data.img = mlx_new_image(data.mlx, WIN_X, WIN_Y);
-	data.img_addr = (int *)mlx_get_data_addr(data.img, &data.bpp,\
-		&data.sl, &data.endian);
-	data.env.cam = vec3(200.0, 0.0, 50.0);
-	data.env.sph.o = vec3(40.0, -70.0, 10.0);
-	data.env.sph.r = 30.0;
-	mlx_loop_hook(data.mlx, thread_init, &data);
-	mlx_hook(data.win, 17, (1L << 17), deal_close, NULL);
-	mlx_hook(data.win, 2, 0, deal_key, NULL);
-	mlx_loop(data.mlx);
+	data.mlx_ptr = mlx_init();
+	data.win_ptr = mlx_new_window(data.mlx_ptr, WIN_X, WIN_Y, "RTv1");
+	data.image_ptr = mlx_new_image(data.mlx_ptr, WIN_X, WIN_Y);
+	data.data = (int *)mlx_get_data_addr(data.image_ptr, &data.bpp,\
+		&data.size_line, &data.end);
+	mlx_loop_hook(data.mlx_ptr, toomuch_lineagain, &data);
+	mlx_hook(data.win_ptr, 17, (1L << 17), deal_close, NULL);
+	mlx_hook(data.win_ptr, 2, 0, deal_key, NULL);
+	mlx_loop(data.mlx_ptr);
 	// create_circle(&data, 0, 0);
 	return (0);
 }

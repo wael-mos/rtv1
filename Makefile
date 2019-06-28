@@ -6,7 +6,7 @@
 #    By: wael-mos <wael-mos@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/07 16:58:40 by wael-mos          #+#    #+#              #
-#    Updated: 2019/05/23 14:48:39 by wael-mos         ###   ########.fr        #
+#    Updated: 2019/06/27 17:17:21 by wael-mos         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ OBJ_DIR	:= ./obj
 
 # SRC/OBJ files
 
-SRC		:= 	*.c
+SRC		:= 	main.c
 
 OBJ		:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 
