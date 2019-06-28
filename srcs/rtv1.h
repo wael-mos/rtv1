@@ -1,18 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rtv1.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wael-mos <wael-mos@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/28 10:54:10 by wael-mos          #+#    #+#             */
+/*   Updated: 2019/06/28 10:54:38 by wael-mos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef RTV1_H
 # define RTV1_H
 
 # include "../minilibx_macos/mlx.h"
-# include "../libft/libft.h"
 # include <math.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <errno.h>
-# include <sys/stat.h>
+# include <sys/stat.h> //
 # include <fcntl.h>
 # include <pthread.h>
 
-# define ERROR_MSG			"Usage:./RTv1 [filename]\n"
+// # define ERROR_MSG			"Usage:./RTv1 [filename]\n"
 
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 
