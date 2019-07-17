@@ -6,7 +6,7 @@
 /*   By: wael-mos <wael-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 16:05:37 by wael-mos          #+#    #+#             */
-/*   Updated: 2019/06/28 10:46:48 by wael-mos         ###   ########.fr       */
+/*   Updated: 2019/07/08 18:42:21 by evogel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,42 +221,42 @@ int		toomuch_lineagain(t_mlx *data)
 	materials[2].diffuse.red = 1;
 	materials[2].diffuse.green = 1;
 	materials[2].diffuse.blue = 1;
-	materials[2].reflection = 0.9;
+	materials[2].reflection = 0.2;
 
 	materials[3].diffuse.red = 1;
 	materials[3].diffuse.green = 0;
 	materials[3].diffuse.blue = 1;
-	materials[3].reflection = 0.2;
+	materials[3].reflection = 0.9;
 	
 	t_sph spheres[number_mat];
-	spheres[0].pos.x = 150;
-	spheres[0].pos.y = 200;
-	spheres[0].pos.z = 0;
-	spheres[0].radius = 100;
+	spheres[0].pos.x = 100;
+	spheres[0].pos.y = 100;
+	spheres[0].pos.z = 100;
+	spheres[0].radius = 200;
 	spheres[0].material = 0;
 	
-	spheres[1].pos.x = 400;
-	spheres[1].pos.y = 400;
-	spheres[1].pos.z = 0;
-	spheres[1].radius = 100;
+	spheres[1].pos.x = 500;
+	spheres[1].pos.y = 450;
+	spheres[1].pos.z = 50;
+	spheres[1].radius = 50;
 	spheres[1].material = 1;
 	
 	spheres[2].pos.x = 500;
 	spheres[2].pos.y = 140;
-	spheres[2].pos.z = 0;
+	spheres[2].pos.z = 100;
 	spheres[2].radius = 100;
 	spheres[2].material = 2;
 	
-	spheres[3].pos.x = 0;
-	spheres[3].pos.y = 0;
-	spheres[3].pos.z = 0;
+	spheres[3].pos.x = 450;
+	spheres[3].pos.y = 350;
+	spheres[3].pos.z = 200;
 	spheres[3].radius = 100;
 	spheres[3].material = 3;
 	
 	t_light lights[number_mat];
-	lights[0].pos.x = 0;
-	lights[0].pos.y = 0;
-	lights[0].pos.z = -100;
+	lights[0].pos.x = 800;
+	lights[0].pos.y = 650;
+	lights[0].pos.z = -300;
 	lights[0].intensity.red = 1;
 	lights[0].intensity.green = 1;
 	lights[0].intensity.blue = 1;
@@ -264,23 +264,23 @@ int		toomuch_lineagain(t_mlx *data)
 	lights[1].pos.x = 400;
 	lights[1].pos.y = -700;
 	lights[1].pos.z = -700;
-	lights[1].intensity.red = 0.6;
-	lights[1].intensity.green = 0.7;
-	lights[1].intensity.blue = 1;
+	lights[1].intensity.red = 0;//0.6;
+	lights[1].intensity.green = 0;//0.7;
+	lights[1].intensity.blue = 0;//1;
 
-	lights[2].pos.x = 1000;
+	lights[2].pos.x = 700;
 	lights[2].pos.y = 0;
 	lights[2].pos.z = -100;
-	lights[2].intensity.red = 0.3;
-	lights[2].intensity.green = 0.5;
-	lights[2].intensity.blue = 1;
+	lights[2].intensity.red = 0;//0.3;
+	lights[2].intensity.green = 0;//0.5;
+	lights[2].intensity.blue = 0;
 
-	lights[3].pos.x = 0;
-	lights[3].pos.y = 0;
-	lights[3].pos.z = -100;
-	lights[3].intensity.red = 0.3;
-	lights[3].intensity.green = 0.5;
-	lights[3].intensity.blue = 1;
+	lights[3].pos.x = 100;
+	lights[3].pos.y = 100;
+	lights[3].pos.z = -500;
+	lights[3].intensity.red = 0;//0.3;
+	lights[3].intensity.green = 0;//0.5;
+	lights[3].intensity.blue = 0;//1;
 	
 	/* Will contain the raw image */
 
@@ -318,7 +318,7 @@ int		toomuch_lineagain(t_mlx *data)
 			r.dir.y = 0;
 			r.dir.z = 1;
 			
-			while ((coef > 0.0f) && (level < 15))
+			while ((coef > 0.0f) && (level < 30))
 			{
 				/* Find closest intersection */
 				float t;
@@ -365,12 +365,12 @@ int		toomuch_lineagain(t_mlx *data)
 				unsigned int j;
 				j = 0;
 
-				while (j++ < 3)
+				while (j++ < number_mat)
 				{
 					t_light currentLight;
 					t_vec dist;
 					
-					currentLight = lights[j];
+					currentLight = lights[j - 1];
 					dist = sub_vec(&currentLight.pos, &newStart);
 					if (dot_product(&n, &dist) <= 0.0f)
 						continue;
@@ -382,7 +382,7 @@ int		toomuch_lineagain(t_mlx *data)
 					t_ray lightRay;
 					lightRay.start = newStart;
 					lightRay.dir = scale((1/t), &dist);
-					
+				
 					/* Calculate shadows */
 					int inShadow;
 					unsigned int k;
