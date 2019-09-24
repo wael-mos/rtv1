@@ -5,55 +5,114 @@
 #                                                     +:+ +:+         +:+      #
 #    By: wael-mos <wael-mos@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/01/07 16:58:40 by wael-mos          #+#    #+#              #
-#    Updated: 2019/06/27 17:17:21 by wael-mos         ###   ########.fr        #
+#    Created: 2018/11/07 16:47:44 by evogel            #+#    #+#              #
+#    Updated: 2019/07/26 13:32:26 by wael-mos         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME 	:= rtv1
+NAME = RTv1
 
-# Directories
+#########
+# FILES #
+#########
 
-SRC_DIR	:= ./srcs
-LIB_DIR	:= ./minilibx_macos
-OBJ_DIR	:= ./obj
+SRCS = main2.c \
+	   tools.c \
+	   write_ppm.c \
+	   render.c \
+	   intersect.c
 
-# SRC/OBJ files
+OBJS = $(SRCS:.c=.o)
 
-SRC		:= 	main.c
+###############
+# DIRECTORIES #
+###############
 
-OBJ		:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
+INC = incs
 
-# Few flags
+P_SRCS = srcs
 
-CC		:= gcc
-CFLAGS	:= -Wall -Werror -Wextra # -O2 -g
+P_OBJS = objs
 
-#
+D_OBJS = $(addprefix $(P_OBJS)/, $(OBJS))
 
-.PHONY:		clean fclean all re
+#############
+# LIBRARIES #
+#############
 
-all:
-	@mkdir -p $(OBJ_DIR)
-	@make -C minilibx_macos/
-	@$(MAKE) $(NAME)
+LIBS = libft.a \
+	   libmlx.a
 
-$(OBJ_DIR)/%.o:$(SRC_DIR)/%.c
-	@$(CC) $(CFLAGS) -I $(LIB_DIR) -o $@ -c $<
-	@printf "\r\033[K"
-	@printf "Compiling object: $@ [ ✔ ]"
+D_LIBS = $(foreach LIB, $(LIBS), $(basename $(LIB))/$(LIB))
 
-$(NAME): 	$(OBJ)
-	@$(CC) $(CFLAGS) -I $(LIB_DIR) -o $(NAME) $(OBJ) -L $(LIB_DIR) -lmlx \
-		-framework OpenGL -framework AppKit
+############
+# COMPILER #
+############
+
+CC = gcc
+
+CFLAGS = -g -Wall -Wextra -Werror
+
+MLXFLAGS = -framework OpenGL -framework AppKit
+
+I_FLAGS = $(foreach LIB, $(LIBS),-I$(basename $(LIB))) -I$(INC)
+
+L_FLAGS = $(foreach LIB, $(LIBS),-L$(basename $(LIB)) -l$(LIB:lib%.a=%)) -lm
+
+################
+# COMPILE TEST #
+################
+
+COM_COLOR   = \033[0;34m
+OBJ_COLOR   = \033[0;36m
+OK_COLOR    = \033[0;32m
+ERROR_COLOR = \033[0;31m
+WARN_COLOR  = \033[0;33m
+NO_COLOR    = \033[m
+
+define run_and_test
+printf "%b" "$(COM_COLOR)$(COM_STRING) $(OBJ_COLOR)$(@F)$(NO_COLOR)\r"; \
+	$(1) 2> $@.log; \
+	RESULT=$$?; \
+	if [ $$RESULT -ne 0 ]; then \
+		printf "%-60b%b" "$(COM_COLOR)$(COM_STRING)$(OBJ_COLOR) $@" "$(ERROR_COLOR)$(ERROR_STRING)$(NO_COLOR)\n"   ; \
+	elif [ -s $@.log ]; then \
+		printf "%-60b%b" "$(COM_COLOR)$(COM_STRING)$(OBJ_COLOR) $@" "$(WARN_COLOR)$(WARN_STRING)$(NO_COLOR)\n"   ; \
+	else  \
+		printf "%-60b%b" "$(COM_COLOR)$(COM_STRING)$(OBJ_COLOR) $(@F)" "$(OK_COLOR)$(OK_STRING)$(NO_COLOR)\n"   ; \
+	fi; \
+	cat $@.log; \
+	rm -f $@.log; \
+	exit $$RESULT
+endef
+
+OK_STRING    = "[OK]"
+ERROR_STRING = "[ERROR]"
+WARN_STRING  = "[WARNING]"
+COM_STRING   = "Compiling"
+
+#########
+# RULES #
+#########
+
+all: $(NAME)
+
+$(NAME): $(D_LIBS) $(P_OBJS) $(D_OBJS)
+	@$(call run_and_test, $(CC) $(CFLAGS) $(MLXFLAGS) -o $(NAME) $(D_OBJS) $(L_FLAGS))
+
+$(P_OBJS)/%.o: $(P_SRCS)/%.c $(INC)
+	@$(call run_and_test, $(CC) $(CFLAGS) $(I_FLAGS) -o $@ -c $<)
+
+$(P_OBJS):
+	@$(call run_and_test, mkdir -p $(P_OBJS))
+
+$(D_LIBS):
+	@$(call run_and_test, make -C $(dir $@))
 
 clean:
-	@make -C minilibx_macos/ clean
-	@/bin/rm -rf $(OBJ_DIR)
-	@printf '\033[31m[ ✔ ] %s\n\033[0m' "Clean"
+	@$(call run_and_test, rm -rf $(P_OBJS) $(foreach LIB, $(LIBS),&& make -C $(basename $(LIB)) clean))
 
-fclean:		clean
-	@/bin/rm -rf $(NAME)
-	@printf '\033[31m[ ✔ ] %s\n\033[0m' "Fclean"
+fclean: clean
+	@$(call run_and_test, rm -f $(NAME) $(foreach LIB, $(LIBS),&& make -C $(basename $(LIB)) fclean))
 
-re:			fclean all
+re: fclean all

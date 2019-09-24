@@ -6,7 +6,7 @@
 /*   By: wael-mos <wael-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 10:54:10 by wael-mos          #+#    #+#             */
-/*   Updated: 2019/06/28 10:54:38 by wael-mos         ###   ########.fr       */
+/*   Updated: 2019/07/18 12:09:59 by wael-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,14 @@ typedef struct	s_vec
 	float		y;
 	float		z;
 }				t_vec;
+
+typedef struct	s_vec4
+{
+    float		x;
+	float		y;
+	float		z;
+	float		w;
+}				t_vec4;
 
 /* The sphere */
 typedef struct	s_sph
@@ -89,6 +97,14 @@ typedef struct	s_mlx
 	int			end;
 
 }				t_mlx;
+
+typedef struct	s_matrix
+{
+	t_vec4		row0;
+	t_vec4		row1;
+	t_vec4		row2;
+	t_vec4		row3;
+}				t_matrix;
 
 // typedef struct		s_thread
 // {

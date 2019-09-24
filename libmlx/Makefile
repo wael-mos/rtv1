@@ -10,11 +10,20 @@ CFLAGS+=-O2
 all: $(NOM)
 
 $(NOM):	$(OBJ)
-	ar -r $(NOM) $(OBJ)
-	ranlib $(NOM)
+	@ar -rc $(NOM) $(OBJ)
+	@ranlib $(NOM)
+
+%.o: %.m
+	@cc $(CFLAGS) -o $@ -c $<
+
+%.o: %.c
+	@cc $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -f $(NOM) $(OBJ) *~
-	rm -f mlx_app
+	@rm -f $(OBJ) *~
+	@rm -f mlx_app
 
-re: clean all
+fclean: clean
+	@rm -f $(NOM)
+
+re: fclean all
