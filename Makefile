@@ -6,7 +6,7 @@
 #    By: wael-mos <wael-mos@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 16:47:44 by evogel            #+#    #+#              #
-#    Updated: 2019/07/26 13:32:26 by wael-mos         ###   ########.fr        #
+#    Updated: 2019/11/09 18:18:30 by wael-mos         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,11 +16,17 @@ NAME = RTv1
 # FILES #
 #########
 
-SRCS = main2.c \
-	   tools.c \
-	   write_ppm.c \
+SRCS = main.c \
+	   parsing1.c \
 	   render.c \
-	   intersect.c
+	   cast_ray.c \
+	   intersect1.c \
+	   intersect2.c \
+	   tools1.c \
+	   tools2.c \
+	   tools3.c \
+	   tools4.c \
+	   tools_mlx.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -58,6 +64,10 @@ MLXFLAGS = -framework OpenGL -framework AppKit
 I_FLAGS = $(foreach LIB, $(LIBS),-I$(basename $(LIB))) -I$(INC)
 
 L_FLAGS = $(foreach LIB, $(LIBS),-L$(basename $(LIB)) -l$(LIB:lib%.a=%)) -lm
+
+XML_LFLAGS = -Ilibxml2/2.9.9_2/include/libxml2/ -lxml2
+
+XML_IFLAGS = -Ilibxml2/2.9.9_2/include/libxml2/
 
 ################
 # COMPILE TEST #
@@ -98,10 +108,10 @@ COM_STRING   = "Compiling"
 all: $(NAME)
 
 $(NAME): $(D_LIBS) $(P_OBJS) $(D_OBJS)
-	@$(call run_and_test, $(CC) $(CFLAGS) $(MLXFLAGS) -o $(NAME) $(D_OBJS) $(L_FLAGS))
+	@$(call run_and_test, $(CC) $(CFLAGS) $(MLXFLAGS) -o $(NAME) $(D_OBJS) $(L_FLAGS) $(XML_LFLAGS))
 
 $(P_OBJS)/%.o: $(P_SRCS)/%.c $(INC)
-	@$(call run_and_test, $(CC) $(CFLAGS) $(I_FLAGS) -o $@ -c $<)
+	@$(call run_and_test, $(CC) $(CFLAGS) $(I_FLAGS) $(XML_IFLAGS) -o $@ -c $<)
 
 $(P_OBJS):
 	@$(call run_and_test, mkdir -p $(P_OBJS))
