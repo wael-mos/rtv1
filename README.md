@@ -1,3 +1,2 @@
-# RT
+# RTv1
 
-Trello : https://trello.com/b/2oVtzOSV/rt
