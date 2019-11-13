@@ -6,7 +6,7 @@
 /*   By: wael-mos <wael-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 10:54:10 by wael-mos          #+#    #+#             */
-/*   Updated: 2019/11/12 15:09:22 by wael-mos         ###   ########.fr       */
+/*   Updated: 2019/11/13 18:12:24 by evogel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ int				cylinder_intersect(t_ray *r, t_obj *s, float *t);
 int				plane_intersect(t_ray *r, t_obj *s, float *t);
 int				cone_intersect(t_ray *r, t_obj *s, float *t);
 t_vec			get_phit_normal(t_vec p_hit, t_obj *obj);
-t_col			check_refl(t_env *env, t_ray *ray, t_obj *curr_obj, t_col col, int depth);
 
 int				deal_key(int key, void *s);
 int				deal_close(void *param);

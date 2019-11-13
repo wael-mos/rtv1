@@ -6,7 +6,7 @@
 /*   By: wael-mos <wael-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 14:03:04 by evogel            #+#    #+#             */
-/*   Updated: 2019/11/12 15:09:40 by wael-mos         ###   ########.fr       */
+/*   Updated: 2019/11/13 16:24:31 by evogel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	add_color(t_col *ori, t_col *add, float amount)
 void	errormsg(t_env *env, int msg)
 {
 	if (msg == 1)
-		ft_printf("Error: File cannot be opened.\n");
+		ft_printf("Error: Please provide a valid XML file.\n");
 	else if (msg == 2)
 		ft_printf("Error: Failed malloc.\n");
 	else if (msg == 3)

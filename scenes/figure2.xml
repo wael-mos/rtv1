@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<scene>
+	<windows>
+		<size x="1080" y="720"/>
+	</windows>
+
+	<!--  -->
+
+	<camera fov="30">
+		<pos x="0" y="0" z="500"/>
+		<rot x="0" y="0" z="0"/>
+	</camera>
+
+	<!--  -->
+
+	<lights ambient="0">
+		<light>
+		    <pos x="400" y="0" z="600"/>
+			<col r="60" g="60" b="60"/>
+		</light>
+	</lights>
+
+	<!--  -->
+
+	<objects>
+		<cylinder radius="50">
+			<pos x="0" y="0" z="0"/>
+			<rot x="0" y="0" z="0"/>
+			<col r="0" g="50" b="0"/>
+		</cylinder>
+	</objects>
+</scene>

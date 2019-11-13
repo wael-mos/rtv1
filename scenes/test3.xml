@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<scene>
+	<windows>
+		<size x="1080" y="720"/>
+	</windows>
+
+	<!--  -->
+
+	<camera fov="60">
+		<pos x="-1000" y="600" z="1500"/>
+		<rot x="-20" y="-45" z="0"/>
+	</camera>
+
+	<!--  -->
+
+	<lights ambient="10">
+		<light>
+		    <pos x="-300" y="200" z="500"/>
+			<col r="100" g="0" b="0"/>
+		</light>
+		<light>
+		    <pos x="0" y="200" z="500"/>
+			<col r="0" g="100" b="0"/>
+		</light>
+		<light>
+		    <pos x="300" y="200" z="500"/>
+			<col r="0" g="0" b="100"/>
+		</light>
+	</lights>
+
+	<!--  -->
+
+	<objects>
+		<plane>
+			<pos x="0" y="0" z="-500"/>
+			<rot x="90" y="0" z="0"/>
+			<col r="100" g="100" b="100"/>
+		</plane>
+
+		<plane>
+			<pos x="1000" y="0" z="0"/>
+			<rot x="0" y="0" z="90"/>
+			<col r="100" g="100" b="100"/>
+		</plane>
+
+		<plane>
+			<pos x="00" y="-500" z="0"/>
+			<rot x="0" y="0" z="0"/>
+			<col r="100" g="100" b="100"/>
+		</plane>
+
+		<sphere radius="200">
+			<pos x="0" y="0" z="0"/>
+			<col r="60" g="60" b="60"/>
+		</sphere>
+
+		<sphere radius="100">
+			<pos x="350" y="300" z="450"/>
+			<col r="40" g="40" b="40"/>
+		</sphere>
+
+		<sphere radius="130">
+			<pos x="-50" y="-300" z="300"/>
+			<col r="80" g="80" b="80"/>
+		</sphere>
+
+		<cone radius="5">
+			<pos x="300" y="100" z="100"/>
+			<rot x="0" y="0" z="0"/>
+			<col r="20" g="20" b="20"/>
+		</cone>
+	</objects>
+</scene>

@@ -8,7 +8,7 @@
 	<!--  -->
 
 	<camera fov="30">
-		<pos x="-400" y="1000" z="4000"/>
+		<pos x="-450" y="900" z="2700"/>
 		<rot x="-10" y="-20" z="0"/>
 	</camera>
 
@@ -17,12 +17,12 @@
 	<lights ambient="20">
 		<light>
 		    <pos x="400" y="500" z="400"/>
-			<col r="100" g="0" b="0"/>
+			<col r="100" g="60" b="60"/>
 		</light>
 
 		<light>
 		    <pos x="-1000" y="200" z="100"/>
-			<col r="80" g="80" b="100"/>
+			<col r="30" g="80" b="100"/>
 		</light>
 	</lights>
 
@@ -43,7 +43,7 @@
 
 		<sphere radius="120">
 			<pos x="500" y="400" z="0"/>
-			<col r="100" g="50" b="0"/>
+			<col r="10" g="80" b="30"/>
 		</sphere>
 
 		<cylindre radius="60">

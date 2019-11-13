@@ -6,7 +6,7 @@
 /*   By: wael-mos <wael-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 17:45:00 by evogel            #+#    #+#             */
-/*   Updated: 2019/11/12 15:10:26 by wael-mos         ###   ########.fr       */
+/*   Updated: 2019/11/13 18:10:51 by evogel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ float	shadows(t_env *env, t_light *light, t_obj *obj)
 	return (res < 0.0f ? 0.0f : res);
 }
 
-t_vec   reflect(t_vec i, t_vec normal)
+t_vec	reflect(t_vec i, t_vec normal)
 {
-	float   reflect;
-	t_vec   tmp;
+	float	reflect;
+	t_vec	tmp;
 
 	reflect = 2.0f * dot(normal, i);
 	tmp = scale(reflect, normal);

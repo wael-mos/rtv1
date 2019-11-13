@@ -6,20 +6,16 @@
 /*   By: wael-mos <wael-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:25:18 by wael-mos          #+#    #+#             */
-/*   Updated: 2019/11/10 11:46:09 by wael-mos         ###   ########.fr       */
+/*   Updated: 2019/11/13 18:17:48 by evogel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-// Source : http://www.xmlsoft.org/examples/#Parsing
-
-// TOOLS
-
 t_vec		deg(t_vec rot)
 {
 	t_vec	res;
-	
+
 	res.x = deg2rad((int)rot.x);
 	res.y = deg2rad((int)rot.y);
 	res.z = deg2rad((int)rot.z);
@@ -31,7 +27,7 @@ t_col		parse_col(xmlNode *cur)
 	xmlAttr *attr;
 	xmlChar *value;
 	t_col	col;
-	
+
 	if (!cur || !cur->properties)
 		return (color(0.0, 0.0, 0.0));
 	attr = cur->properties;
@@ -56,7 +52,7 @@ t_vec		parse_rot(xmlNode *cur)
 	xmlAttr *attr;
 	xmlChar *value;
 	t_vec	rot;
-	
+
 	if (!cur || !cur->properties)
 		return (vec(0.0, 0.0, 0.0));
 	attr = cur->properties;
@@ -81,7 +77,7 @@ t_vec		parse_pos(xmlNode *cur)
 	xmlAttr *attr;
 	xmlChar *value;
 	t_vec	pos;
-	
+
 	if (!cur || !cur->properties)
 		return (vec(0.0, 0.0, 0.0));
 	attr = cur->properties;
@@ -109,19 +105,19 @@ static int	read_type(char *word)
 		return (1);
 	if (!ft_strcmp(word, "Cylindre") || !ft_strcmp(word, "cylindre"))
 		return (2);
+	if (!ft_strcmp(word, "Cylinder") || !ft_strcmp(word, "cylinder"))
+		return (2);
 	if (!ft_strcmp(word, "Cone") || !ft_strcmp(word, "cone"))
 		return (3);
 	return (4);
 }
-
-//
 
 void		parse_anobj(xmlNode *node, t_obj *obj)
 {
 	xmlNode	*cur;
 	xmlAttr	*attr;
 	xmlChar	*value;
-	
+
 	if (!node || !node->children)
 		return ;
 	cur = node->children;
@@ -203,7 +199,8 @@ void		parse_lights(xmlNode *node, t_env *env)
 	{
 		if (!ft_strcmp((char *)node->properties->name, "ambient"))
 		{
-			value = xmlNodeListGetString(node->doc, node->properties->children, 1);
+			value = xmlNodeListGetString(node->doc,
+				node->properties->children, 1);
 			env->ambient = ft_atoi((char *)value);
 			env->ambient /= 100;
 			xmlFree(value);
@@ -235,7 +232,8 @@ void		parse_cam(xmlNode *node, t_env *env)
 	{
 		if (!ft_strcmp((char *)node->properties->name, "fov"))
 		{
-			value = xmlNodeListGetString(node->doc, node->properties->children, 1);
+			value = xmlNodeListGetString(node->doc,
+				node->properties->children, 1);
 			env->cam.fov = ft_atoi((char *)value);
 			xmlFree(value);
 		}
@@ -285,8 +283,8 @@ void		parse_windows(xmlNode *node, t_env *env)
 	xmlFree(cur);
 }
 
-static void split_parsing(xmlNode *begin, t_env *env)
-{  
+static void	split_parsing(xmlNode *begin, t_env *env)
+{
 	xmlNode *cur_node;
 
 	if (!begin)
@@ -312,8 +310,8 @@ static void split_parsing(xmlNode *begin, t_env *env)
 
 int			parsing(char **av, t_env *env)
 {
-	xmlDoc         *document;
-	xmlNode        *root;
+	xmlDoc	*document;
+	xmlNode	*root;
 
 	if (!(document = xmlReadFile(av[1], NULL, 0)))
 		errormsg(env, 1);

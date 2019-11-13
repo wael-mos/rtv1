@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<scene>
+	<windows>
+		<size x="1080" y="720"/>
+	</windows>
+
+	<!--  -->
+
+	<camera fov="30">
+		<pos x="0" y="0" z="500"/>
+		<rot x="0" y="0" z="0"/>
+	</camera>
+
+	<!--  -->
+
+	<lights ambient="0">
+		<light>
+		    <pos x="200" y="0" z="300"/>
+			<col r="80" g="80" b="80"/>
+		</light>
+	</lights>
+
+	<!--  -->
+
+	<objects>
+		<sphere radius="50">
+			<pos x="0" y="0" z="0"/>
+			<col r="50" g="0" b="0"/>
+		</sphere>
+	</objects>
+</scene>
