@@ -6,7 +6,7 @@
 /*   By: wael-mos <wael-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 10:54:10 by wael-mos          #+#    #+#             */
-/*   Updated: 2019/11/13 18:12:24 by evogel           ###   ########.fr       */
+/*   Updated: 2019/11/18 12:03:53 by evogel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct	s_env
 }				t_env;
 
 float			deg2rad(int d);
+t_vec			deg(t_vec rot);
 t_vec			vec(float x, float y, float z);
 t_vec4			vec4(float x, float y, float z, float w);
 t_col			color(float red, float green, float blue);
@@ -123,6 +124,13 @@ t_vec			rotate_z(t_vec pt, double theta);
 t_vec			rotate_full(t_vec ori, t_vec rot);
 
 int				parsing(char **av, t_env *env);
+void			parse_lights(xmlNode *node, t_env *env);
+void			parse_objects(xmlNode *node, t_env *env);
+void			parse_anobj(xmlNode *node, t_obj *obj);
+int				read_type(char *word);
+t_vec			parse_pos(xmlNode *cur);
+t_vec			parse_rot(xmlNode *cur);
+t_col			parse_col(xmlNode *cur);
 t_vec			get_axe(t_vec rot);
 
 int				render(t_env *env);

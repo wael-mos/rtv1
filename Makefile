@@ -6,7 +6,7 @@
 #    By: wael-mos <wael-mos@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 16:47:44 by evogel            #+#    #+#              #
-#    Updated: 2019/11/09 18:18:30 by wael-mos         ###   ########.fr        #
+#    Updated: 2019/11/18 12:04:37 by evogel           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,8 @@ NAME = RTv1
 
 SRCS = main.c \
 	   parsing1.c \
+	   parsing2.c \
+	   parsing3.c \
 	   render.c \
 	   cast_ray.c \
 	   intersect1.c \

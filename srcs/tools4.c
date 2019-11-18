@@ -6,7 +6,7 @@
 /*   By: wael-mos <wael-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 14:03:04 by evogel            #+#    #+#             */
-/*   Updated: 2019/11/13 16:24:31 by evogel           ###   ########.fr       */
+/*   Updated: 2019/11/18 11:44:15 by evogel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,14 @@ void	freetab(char **tab)
 	}
 	free(tab);
 	tab = NULL;
+}
+
+t_vec		deg(t_vec rot)
+{
+	t_vec	res;
+
+	res.x = deg2rad((int)rot.x);
+	res.y = deg2rad((int)rot.y);
+	res.z = deg2rad((int)rot.z);
+	return (res);
 }
