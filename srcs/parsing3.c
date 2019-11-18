@@ -6,7 +6,7 @@
 /*   By: evogel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 12:02:09 by evogel            #+#    #+#             */
-/*   Updated: 2019/11/18 12:04:01 by evogel           ###   ########.fr       */
+/*   Updated: 2019/11/18 13:38:50 by evogel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,9 @@ void		parse_anobj(xmlNode *node, t_obj *obj)
 	{
 		value = xmlNodeListGetString(node->doc, attr->children, 1);
 		if (ft_strequ((char *)attr->name, "radius"))
-			obj->rad = (obj->type == 3) ? deg2rad(ft_atoi((char *)value)) :\
-				ft_atoi((char *)value);
+			obj->rad = ft_atoi((char *)value);
+		if (ft_strequ((char *)attr->name, "angle"))
+			obj->rad = deg2rad(ft_atoi((char *)value));
 		xmlFree(value);
 		attr = attr->next;
 	}

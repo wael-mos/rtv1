@@ -65,7 +65,7 @@
 			<col r="80" g="80" b="80"/>
 		</sphere>
 
-		<cone radius="5">
+		<cone angle="5">
 			<pos x="300" y="100" z="100"/>
 			<rot x="0" y="0" z="0"/>
 			<col r="20" g="20" b="20"/>

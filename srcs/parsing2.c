@@ -6,7 +6,7 @@
 /*   By: evogel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 11:45:02 by evogel            #+#    #+#             */
-/*   Updated: 2019/11/18 12:02:02 by evogel           ###   ########.fr       */
+/*   Updated: 2019/11/18 13:37:00 by evogel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ void		parse_lights(xmlNode *node, t_env *env)
 		{
 			value = xmlNodeListGetString(node->doc,
 				node->properties->children, 1);
-			env->ambient = ft_atoi((char *)value);
-			env->ambient /= 100;
+			env->ambient = (float)ft_atoi((char *)value) / 100;
+			env->ambient = env->ambient < 0 ? 0 : env->ambient;
 			xmlFree(value);
 		}
 	}

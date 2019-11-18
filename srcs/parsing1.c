@@ -6,7 +6,7 @@
 /*   By: wael-mos <wael-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:25:18 by wael-mos          #+#    #+#             */
-/*   Updated: 2019/11/18 12:03:59 by evogel           ###   ########.fr       */
+/*   Updated: 2019/11/18 13:32:04 by evogel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ int			parsing(char **av, t_env *env)
 	split_parsing(root->children, env);
 	xmlFreeDoc(document);
 	xmlCleanupParser();
-	env->win_x = env->win_x < 0 ? -1 * env->win_x : env->win_x;
-	env->win_y = env->win_y < 0 ? -1 * env->win_y : env->win_y;
+	env->win_x *= env->win_x < 0 ? -1 : 1;
+	env->win_y *= env->win_y < 0 ? -1 : 1;
 	env->win_x = env->win_x == 0 ? 1080 : env->win_x;
 	env->win_y = env->win_y == 0 ? 720 : env->win_y;
 	return (0);
